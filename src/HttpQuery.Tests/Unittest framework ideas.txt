@@ -1,0 +1,13 @@
+﻿arrange(context => {
+context.mocks[""] = 
+context.mocks.add();
+})
+act(context => {
+context.result = context.sut.<target method>()
+})
+assert(context => {
+context.result.shouldbe(expected)
+context.mocks[""].verify()
+context.mocks["mockvariableName"].verify()
+context.mocks.verify();
+})

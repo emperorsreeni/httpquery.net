@@ -1,0 +1,45 @@
+﻿//get a resource
+get()
+resource()
+with
+	queries()
+from()
+include
+	headers()
+
+
+
+//to create a resource
+create()
+resource("url",args)
+with
+	.queries()
+	.file()
+	.content()
+on(server)
+include
+	.headers()
+	.cookies()
+
+
+//to update a resource
+udpate()
+resource("url",args)
+with
+	.queries()
+	.file()
+	.content()
+on(server)
+include
+	.headers()
+	.cookies()
+
+//to delete a resource
+delete()
+resource("url",args)
+with
+	.queries()
+from(server)
+include
+	.headers()
+	.cookies()
