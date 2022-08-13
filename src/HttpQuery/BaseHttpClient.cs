@@ -34,8 +34,8 @@ namespace HttpQuery
                 _logger.LogIfDebug("request message build and initiating the server request");
                 var response = await _httpClient.SendAsync(requestMessage);
                 _logger.LogIfDebug($"response recieved with status code {(int)response.StatusCode}, response header count is {response.Headers.Count()} and content type is {response.Content?.Headers?.ContentType}");
-                var responseBuilder = new HttpResponseBuilder(response);
-                var result = responseBuilder.Build();
+                var responseBuilder = new HttpResponseParser(response);
+                var result = responseBuilder.Parse();
                 _logger.LogIfDebug("reponse extracted from the http response");
                 return result;
             });
@@ -64,8 +64,8 @@ namespace HttpQuery
                 var response = await _httpClient.SendAsync(requestMessage);
                 _logger.LogIfDebug($"response recieved with status code {(int)response.StatusCode}, response header count is {response.Headers.Count()} and content type is {response.Content?.Headers?.ContentType}");
                 _logger.LogIfDebug("call back method completed");
-                var responseBuilder = new HttpResponseBuilder(response);
-                var result = await responseBuilder.Build<T>();
+                var responseBuilder = new HttpResponseParser(response);
+                var result = await responseBuilder.ParseAsync<T>();
                 _logger.LogIfDebug("reponse extracted from the http response");
                 return result;
             });
