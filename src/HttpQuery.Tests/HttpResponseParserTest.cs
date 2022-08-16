@@ -10,7 +10,7 @@ using System.Xml.Serialization;
 namespace HttpQuery.Tests
 {
     [TestClass]
-    public class HttpResponseBuilderTest
+    public class HttpResponseParserTest
     {
         [TestMethod]
         public void Build_should_build_reponse_message_from_given_http_message()
@@ -213,7 +213,7 @@ namespace HttpQuery.Tests
             var writer = new MemoryStream();
             image.Save(writer,System.Drawing.Imaging.ImageFormat.Png);
             writer.Seek(0, SeekOrigin.Begin);
-            
+            var expected = writer.Length;
             var responseMessage = new HttpResponseMessage();
             var content = new StreamContent(writer);
             content.Headers.ContentType = new MediaTypeHeaderValue("image/png");
@@ -233,16 +233,17 @@ namespace HttpQuery.Tests
             var sut = new HttpResponseParser(responseMessage);
 
             //Act
-            var result = await sut.ParseAsync<byte[]>();
+            var actual = await sut.ParseAsync<byte[]>();
 
             //Assert
-            result.ShouldNotBeNull();
-            result.Content.ShouldNotBeNull();
-            result.Content.LongLength.ShouldBe(writer.Length);
-            result.Headers.Count.ShouldBe(2);
-            result.Cookies.Count.ShouldBe(3);
-            content.Dispose();
+            actual.ShouldNotBeNull();
+            actual.Content.ShouldNotBeNull();
+            actual.Content.LongLength.ShouldBe(expected);
+            actual.Headers.Count.ShouldBe(2);
+            actual.Cookies.Count.ShouldBe(3);
             writer.Dispose();
+            content.Dispose();
+           
         }
     }
 
